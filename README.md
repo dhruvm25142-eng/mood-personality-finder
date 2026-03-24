@@ -28,7 +28,7 @@ Fetch API
 
 Clone the repository:
 
-git clone https://github.com/your-username/moodscope.git
+git clone https://https://github.com/dhruvm25142-eng/mood-personality-finder.git
 
 Navigate to the project folder:
 
