@@ -1,0 +1,181 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #020617;
+  border-bottom: 1px solid #1e293b;
+}
+
+.nav-content {
+  max-width: 900px;
+  margin: auto;
+  padding: 16px;
+  font-weight: 600;
+}
+
+/* Footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #020617;
+  border-top: 1px solid #1e293b;
+  text-align: center;
+  padding: 10px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* Main */
+.main {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 90px 20px 70px;
+}
+
+/* Card */
+.card {
+  width: 100%;
+  max-width: 500px;
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+}
+
+/* Headings */
+h1 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.subtitle {
+  color: #94a3b8;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.result-sub {
+  color: #94a3b8;
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* Questions */
+.question {
+  margin: 22px 0;
+}
+
+.question p {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #cbd5f5;
+}
+
+/* Options */
+.options {
+  display: flex;
+  gap: 10px;
+}
+
+/* Buttons */
+.options button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #1e293b;
+  background: #0f172a;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.options button:hover {
+  background: #1e293b;
+}
+
+/* Selected */
+.selected {
+  background: #2563eb !important;
+  border: none;
+}
+
+/* Primary */
+.primary-btn {
+  margin-top: 24px;
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Secondary */
+.secondary-btn {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background: #1e293b;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Result buttons layout */
+.result-actions {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Quote */
+#quoteBox {
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #cbd5f5;
+}
+
+/* Hidden */
+.hidden {
+  display: none;
+}
+
+/* Fade animation */
+.fade-in {
+  animation: fade 0.4s ease;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .options {
+    flex-direction: column;
+  }
+}
