@@ -5,17 +5,21 @@ let allQuotes = [];
 function selectAnswer(type, element) {
   const parent = element.parentElement;
 
+  // Remove previous selection in same question
   parent.querySelectorAll("button").forEach(btn =>
     btn.classList.remove("selected")
   );
 
   element.classList.add("selected");
-  answers.push(type);
+
+  // Replace answer instead of pushing multiple times
+  const index = [...document.querySelectorAll(".question")].indexOf(parent);
+  answers[index] = type;
 }
 
 // Show result
 function showResult() {
-  if (answers.length < 3) {
+  if (answers.length < 3 || answers.includes(undefined)) {
     alert("Answer all questions!");
     return;
   }
@@ -51,12 +55,21 @@ function fetchQuotes() {
     .then(data => {
       allQuotes = data.quotes;
       displayQuotes(allQuotes);
+    })
+    .catch(() => {
+      document.getElementById("quoteBox").innerHTML =
+        "<p>Failed to load quotes 😢</p>";
     });
 }
 
 // Display quotes
 function displayQuotes(quotes) {
   const box = document.getElementById("quoteBox");
+
+  if (!quotes.length) {
+    box.innerHTML = "<p>No quotes found 😕</p>";
+    return;
+  }
 
   const random = quotes[Math.floor(Math.random() * quotes.length)];
 
@@ -66,8 +79,22 @@ function displayQuotes(quotes) {
   `;
 }
 
-// Search
+// Restart
+function restart() {
+  answers = [];
+
+  document.getElementById("resultSection").classList.add("hidden");
+  document.getElementById("questionSection").classList.remove("hidden");
+
+  document.querySelectorAll("button").forEach(btn =>
+    btn.classList.remove("selected")
+  );
+}
+
+// DOM Ready
 document.addEventListener("DOMContentLoaded", () => {
+
+  // 🔍 Search
   document.getElementById("searchInput").addEventListener("input", e => {
     const val = e.target.value.toLowerCase();
 
@@ -78,38 +105,25 @@ document.addEventListener("DOMContentLoaded", () => {
     displayQuotes(filtered);
   });
 
-  document.getElementById("filterMood").addEventListener("change", e => {
+  // 🎯 Filter (future ready)
+  document.getElementById("filterMood").addEventListener("change", () => {
     displayQuotes(allQuotes);
   });
 
-  // Theme toggle
-  document.getElementById("themeToggle").addEventListener("click", () => {
+  // 🌙 Theme Toggle
+  const toggleBtn = document.getElementById("themeToggle");
+
+  toggleBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark");
+
+    const isDark = document.body.classList.contains("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
   });
-});
 
-// Restart
-function restart() {
-  answers = [];
-  document.getElementById("resultSection").classList.add("hidden");
-  document.getElementById("questionSection").classList.remove("hidden");
-
-  document.querySelectorAll("button").forEach(btn =>
-    btn.classList.remove("selected")
-  );
-}
-// Save theme
-document.getElementById("themeToggle").addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-
-  const isDark = document.body.classList.contains("dark");
-  localStorage.setItem("theme", isDark ? "dark" : "light");
-});
-
-// Load theme
-window.onload = () => {
+  // 🌗 Load saved theme
   const saved = localStorage.getItem("theme");
   if (saved === "dark") {
     document.body.classList.add("dark");
   }
-};
+
+});
