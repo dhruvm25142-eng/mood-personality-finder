@@ -1,181 +1,197 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root {
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --primary: #2563eb;
+  --secondary: #64748b;
 }
 
-/* Body */
+body.dark {
+  --bg: #0b1220;
+  --text: #e2e8f0;
+  --card: #0f172a;
+  --border: #1e293b;
+  --primary: #3b82f6;
+  --secondary: #94a3b8;
+}
+
+/* Base */
 body {
+  margin: 0;
   font-family: 'Inter', sans-serif;
-  background: #0f172a;
-  color: #e5e7eb;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Navbar */
 .navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: #020617;
-  border-bottom: 1px solid #1e293b;
-}
-
-.nav-content {
-  max-width: 900px;
-  margin: auto;
-  padding: 16px;
-  font-weight: 600;
-}
-
-/* Footer */
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #020617;
-  border-top: 1px solid #1e293b;
-  text-align: center;
-  padding: 10px;
-  font-size: 13px;
-  color: #64748b;
-}
-
-/* Main */
-.main {
-  min-height: 100vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 90px 20px 70px;
+  padding: 18px 30px;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
 }
 
-/* Card */
-.card {
-  width: 100%;
-  max-width: 500px;
-  background: #020617;
-  border: 1px solid #1e293b;
-  border-radius: 12px;
-  padding: 32px;
-  text-align: center;
-}
-
-/* Headings */
-h1 {
-  font-size: 26px;
+.navbar h2 {
   font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
-.subtitle {
-  color: #94a3b8;
-  font-size: 14px;
-  margin-bottom: 25px;
-}
-
-.result-sub {
-  color: #94a3b8;
-  font-size: 14px;
-  margin-top: 6px;
-}
-
-/* Questions */
-.question {
-  margin: 22px 0;
-}
-
-.question p {
-  font-size: 14px;
-  margin-bottom: 10px;
-  color: #cbd5f5;
-}
-
-/* Options */
-.options {
-  display: flex;
-  gap: 10px;
-}
-
-/* Buttons */
-.options button {
-  flex: 1;
-  padding: 10px;
+/* Theme Button */
+#themeToggle {
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  border: 1px solid #1e293b;
-  background: #0f172a;
-  color: #e5e7eb;
+  padding: 6px 10px;
   cursor: pointer;
   transition: 0.2s;
 }
 
-.options button:hover {
-  background: #1e293b;
+#themeToggle:hover {
+  transform: scale(1.05);
 }
 
-/* Selected */
-.selected {
-  background: #2563eb !important;
-  border: none;
-}
-
-/* Primary */
-.primary-btn {
-  margin-top: 24px;
-  width: 100%;
-  padding: 12px;
-  background: #2563eb;
-  color: white;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-}
-
-/* Secondary */
-.secondary-btn {
-  margin-top: 15px;
-  width: 100%;
-  padding: 10px;
-  background: #1e293b;
-  color: white;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-}
-
-/* Result buttons layout */
-.result-actions {
-  margin-top: 20px;
+/* Main */
+main {
+  padding: 40px 20px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: center;
 }
 
-/* Quote */
-#quoteBox {
-  margin-top: 20px;
-  font-size: 16px;
+/* Sections */
+#questionSection,
+.result-container {
+  width: 100%;
+  max-width: 620px;
+  animation: fadeIn 0.4s ease;
+}
+
+/* Heading */
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+/* Question Card */
+.question {
+  margin: 18px 0;
+  padding: 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: 0.2s;
+}
+
+.question:hover {
+  transform: translateY(-2px);
+}
+
+/* Buttons */
+button {
+  margin: 5px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.selected {
+  background: black;
+}
+
+/* Submit */
+#submitBtn {
+  display: block;
+  margin: 25px auto;
+  padding: 12px 20px;
+}
+
+/* Result Title */
+#resultTitle {
+  margin-bottom: 20px;
+  color: var(--primary);
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.controls input,
+.controls select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  width: 150px;
+}
+
+/* Quote Card */
+.quote-box {
+  background: var(--card);
+  padding: 22px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.quote-box p {
+  font-size: 18px;
   line-height: 1.6;
-  color: #cbd5f5;
+}
+
+.quote-box h4 {
+  margin-top: 10px;
+  color: var(--secondary);
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+  color: var(--secondary);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Hidden */
 .hidden {
   display: none;
-}
-
-/* Fade animation */
-.fade-in {
-  animation: fade 0.4s ease;
-}
-
-@keyframes fade {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .options {
-    flex-direction: column;
-  }
 }
