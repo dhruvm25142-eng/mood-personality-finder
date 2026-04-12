@@ -1,18 +1,17 @@
 let answers = [];
 let allQuotes = [];
+let currentMood = "";
 
 // Answer select
 function selectAnswer(type, element) {
   const parent = element.parentElement;
 
-  // Remove previous selection in same question
   parent.querySelectorAll("button").forEach(btn =>
     btn.classList.remove("selected")
   );
 
   element.classList.add("selected");
 
-  // Replace answer instead of pushing multiple times
   const index = [...document.querySelectorAll(".question")].indexOf(parent);
   answers[index] = type;
 }
@@ -24,14 +23,14 @@ function showResult() {
     return;
   }
 
-  const mood = detectMood();
+  currentMood = detectMood();
 
   document.getElementById("questionSection").classList.add("hidden");
   document.getElementById("resultSection").classList.remove("hidden");
 
   document.getElementById("resultTitle").innerText =
-    mood === "happy" ? "You're feeling Happy 😊" :
-    mood === "sad" ? "You're feeling Low 😔" :
+    currentMood === "happy" ? "You're feeling Happy 😊" :
+    currentMood === "sad" ? "You're feeling Low 😔" :
     "You're an Overthinker 🤯";
 
   fetchQuotes();
@@ -50,30 +49,38 @@ function detectMood() {
 
 // Fetch quotes
 function fetchQuotes() {
+  const box = document.getElementById("quoteBox");
+  box.innerHTML = "<p>Loading quotes...</p>";
+
   fetch("https://dummyjson.com/quotes")
     .then(res => res.json())
     .then(data => {
       allQuotes = data.quotes;
-      displayQuotes(allQuotes);
+      getQuote(); // show first quote properly
     })
     .catch(() => {
-      document.getElementById("quoteBox").innerHTML =
-        "<p>Failed to load quotes 😢</p>";
+      box.innerHTML = "<p>Failed to load quotes 😢</p>";
     });
 }
 
-// Display quotes
-function displayQuotes(quotes) {
-  const box = document.getElementById("quoteBox");
+// ⭐ NEW FUNCTION (FIXED BUTTON)
+function getQuote() {
+  if (!allQuotes.length) return;
 
-  if (!quotes.length) {
-    box.innerHTML = "<p>No quotes found 😕</p>";
-    return;
+  let filtered = allQuotes;
+
+  // Optional: mood-based filtering (future ready)
+  if (currentMood === "happy") {
+    filtered = allQuotes.slice(0, 10);
+  } else if (currentMood === "sad") {
+    filtered = allQuotes.slice(10, 20);
+  } else {
+    filtered = allQuotes.slice(20, 30);
   }
 
-  const random = quotes[Math.floor(Math.random() * quotes.length)];
+  const random = filtered[Math.floor(Math.random() * filtered.length)];
 
-  box.innerHTML = `
+  document.getElementById("quoteBox").innerHTML = `
     <p>"${random.quote}"</p>
     <h4>- ${random.author}</h4>
   `;
@@ -82,11 +89,12 @@ function displayQuotes(quotes) {
 // Restart
 function restart() {
   answers = [];
+  currentMood = "";
 
   document.getElementById("resultSection").classList.add("hidden");
   document.getElementById("questionSection").classList.remove("hidden");
 
-  document.querySelectorAll("button").forEach(btn =>
+  document.querySelectorAll(".question button").forEach(btn =>
     btn.classList.remove("selected")
   );
 }
@@ -102,12 +110,28 @@ document.addEventListener("DOMContentLoaded", () => {
       q.quote.toLowerCase().includes(val)
     );
 
-    displayQuotes(filtered);
+    if (filtered.length) {
+      const random = filtered[Math.floor(Math.random() * filtered.length)];
+
+      document.getElementById("quoteBox").innerHTML = `
+        <p>"${random.quote}"</p>
+        <h4>- ${random.author}</h4>
+      `;
+    } else {
+      document.getElementById("quoteBox").innerHTML = "<p>No quotes found 😕</p>";
+    }
   });
 
-  // 🎯 Filter (future ready)
-  document.getElementById("filterMood").addEventListener("change", () => {
-    displayQuotes(allQuotes);
+  // 🎯 Filter
+  document.getElementById("filterMood").addEventListener("change", e => {
+    const val = e.target.value;
+
+    if (val === "all") {
+      getQuote();
+    } else {
+      currentMood = val;
+      getQuote();
+    }
   });
 
   // 🌙 Theme Toggle
@@ -118,12 +142,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const isDark = document.body.classList.contains("dark");
     localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    toggleBtn.textContent = isDark ? "☀️" : "🌙";
   });
 
   // 🌗 Load saved theme
   const saved = localStorage.getItem("theme");
   if (saved === "dark") {
     document.body.classList.add("dark");
+    toggleBtn.textContent = "☀️";
   }
-
 });
