@@ -48,3 +48,5 @@ http://localhost:3000
 📌 Note
 
 This project is currently in the development phase. Additional features and improvements will be implemented in upcoming milestones.
+
+deployment link - https://mood-personality-finder.netlify.app/
